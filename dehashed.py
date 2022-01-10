@@ -54,12 +54,13 @@ def filter_entries():
         email = entry['email']
         # username = entry['username']
         password = entry['password']
+        hacked_domain = entry['database_name']
         hash = entry['hashed_password']
         if len(password) >= 1:
-            combo = email,password
+            combo = email,password,hacked_domain
             password_combos.append(combo)
         elif len(hash) >= 1:
-            combo = email,hash
+            combo = email,hash,hacked_domain
             hash_combos.append(combo)
         else:
             pass
@@ -74,7 +75,7 @@ def output():
     except Exception as e:
         print('[-] Did not save.')
     for combo in password_combos:
-        combo_raw = combo[0] + ':' + combo[1]
+        combo_raw = combo[0] + ':' + combo[1] + ':' + combo[2]
         print(combo_raw)
         try:
             cracked.write(combo_raw)
@@ -83,7 +84,7 @@ def output():
             pass
     print('\n\n[+] Hashed Passwords {email:hash}')
     for combo in hash_combos:
-        combo_raw = combo[0] + ':' + combo[1]
+        combo_raw = combo[0] + ':' + combo[1] + ':' + combo[2]
         try:
             hashes.write(combo_raw)
             hashes.write('\n')
